@@ -1,4 +1,3 @@
-
 function updateArray(arr, sudoku, isPossible) {
   for (let i = 0; i < arr.length; i++) {
     const index = arr[i];
@@ -10,5 +9,5 @@ function updateArray(arr, sudoku, isPossible) {
 }
 
 module.exports = {
-  updateArray,
+  updateArray: updateArray,
 };
