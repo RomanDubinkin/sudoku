@@ -10,3 +10,7 @@ function updateArray(arr) {
   }
   return isPossible;
 }
+
+module.exports = {
+  updateArray,
+};
