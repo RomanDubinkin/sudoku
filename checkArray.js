@@ -10,7 +10,7 @@ function checkArray(isPossible) {
   if (indices.length > 1 && indices.length < 1) {
     return -1;
   }
-  return indices;
+  return indices[0];
 }
 module.exports = {
   checkArray,

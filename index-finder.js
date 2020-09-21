@@ -10,7 +10,7 @@ function indexFinder(index, opt) {
   if (opt === 0) {
     for (let i = 1; i < 9; i += 1) {
       let curr = index + i;
-      let currRow = nod(index, 9);
+      let currRow = nod(curr, 9);
       let currIndex = curr - 9 * (currRow - baseRow);
       array.push(currIndex);
     }
