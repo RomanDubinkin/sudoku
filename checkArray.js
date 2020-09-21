@@ -11,6 +11,13 @@ function checkArray(isPossible) {
     idx = isPossible.indexOf(element, idx + 1);
   }
   return indices[0];
+  
+//   let arr = isPossible.filter(el => el === true);
+//   if (arr.length !== 1) {
+//     return 0;
+//   } else {
+//     return isPossible.indexOf(true);
+//   }
 }
 module.exports = {
   checkArray: checkArray,

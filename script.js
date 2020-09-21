@@ -9,13 +9,13 @@ function sudokuSolver(string) {
     toContinue = false;
     for (let i = 0; i < 81; i += 1) {
       if (sudokuArray[i] === '-') {
-        let isPossible = new Array(10).fill('true');
+        let isPossible = new Array(10).fill(true);
         isPossible[0] = false;
         for (let j = 0; j < 3; j += 1) {
           let indices = [...indexFinder(i, j)];
           updateArray(indices, sudokuArray, isPossible);
         }
-        if (checkArray(isPossible) !== -1) {
+        if (isPossible[checkArray(isPossible)]) {
           sudokuArray[i] = checkArray(isPossible);
           toContinue = true;
         }
@@ -25,5 +25,5 @@ function sudokuSolver(string) {
   return sudokuArray.join(' ');
 }
 
-const string = '--5-3--819-285--6-6----4-5---74-283-34976---5--83--49-15--87--2-9----6---26-495-3';
+const string = '1-58-2----9--764-52--4--819-19--73-6762-83-9-----61-5---76---3-43--2-5-16--3-89--';
 console.log(sudokuSolver(string));
