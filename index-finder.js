@@ -1,5 +1,4 @@
 function indexFinder(index, opt) {
-
   function nod(x, base) {
     return (x - (x % base)) / base;
   }
@@ -33,7 +32,10 @@ function indexFinder(index, opt) {
           let currRow = nod(curr, 9);
           let currCellColumn = nod(currColumn, 3);
           let currCellRow = nod(currRow, 3);
-          let currIndex = curr - 27 * (currCellRow - baseCellRow) - 3 * (currCellColumn - baseCellColumn);
+          let currIndex =
+            curr -
+            27 * (currCellRow - baseCellRow) -
+            3 * (currCellColumn - baseCellColumn);
           array.push(currIndex);
         }
       }
@@ -44,5 +46,5 @@ function indexFinder(index, opt) {
 }
 
 module.exports = {
-  indexFinder,
+  indexFinder: indexFinder,
 };
