@@ -12,4 +12,19 @@ function stringToArray(boardString){
 }
 
 
-console.log(stringToArray(boardString));
+// console.log(stringToArray(boardString));
+
+// 1. Find empty cell => function() return index 
+// Keti делаешь запрос у функции updateCell(index), которая возвращает либо число, либо ошибку -1
+
+function emptyCell(x){
+  let result;
+  if (x === ' ') {
+    return 'ERROR!'
+  } else {
+    return x;
+  }
+  return result;
+}
+
+console.log(emptyCell(''));
