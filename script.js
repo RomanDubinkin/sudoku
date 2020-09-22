@@ -1,6 +1,75 @@
-const { indexFinder } = require('./index-finder.js');
-const { checkArray } = require('./checkArray.js');
-const { updateArray } = require('./updateArray.js');
+// const fs = require('fs');
+// const indexFinder = require('./index-finder.js');
+// const checkArray  = require('./checkArray.js');
+// const updateArray = require('./updateArray.js');
+
+function updateArray(arr, sudoku, isPossible) {
+  for (let i = 0; i < arr.length; i++) {
+    const index = arr[i];
+    if (sudoku[index] !== '-') {
+      isPossible[sudoku[index]] = false;
+    }
+  }
+  return isPossible;
+}
+
+function checkArray(isPossible, key = 0) {
+  let arr = isPossible.map((el, i) => {
+    if (el === true) return i;
+}).filter(el => el !== undefined);
+if (key === 0) {
+  return arr.length === 1 ? arr[0] : 0
+} else {
+  return arr;
+}
+}
+
+function indexFinder(index, opt) {
+  function nod(x, base) {
+    return (x - (x % base)) / base;
+  }
+
+  let baseColumn = index % 9;
+  let baseRow = nod(index, 9);
+  let array = [];
+  if (opt === 0) {
+    for (let i = 1; i < 9; i += 1) {
+      let curr = index + i;
+      let currRow = nod(curr, 9);
+      let currIndex = curr - 9 * (currRow - baseRow);
+      array.push(currIndex);
+    }
+  }
+  if (opt === 1) {
+    for (let i = 1; i < 9; i += 1) {
+      let curr = index + 9 * i;
+      let currIndex = curr % 81;
+      array.push(currIndex);
+    }
+  }
+  if (opt === 2) {
+    let baseCellColumn = nod(baseColumn, 3);
+    let baseCellRow = nod(baseRow, 3);
+    for (let i = 0; i < 3; i += 1) {
+      for (let j = 0; j < 3; j += 1) {
+        if (!(i === 0 && j === 0)) {
+          let curr = index + 9 * i + j;
+          let currColumn = curr % 9;
+          let currRow = nod(curr, 9);
+          let currCellColumn = nod(currColumn, 3);
+          let currCellRow = nod(currRow, 3);
+          let currIndex =
+            curr -
+            27 * (currCellRow - baseCellRow) -
+            3 * (currCellColumn - baseCellColumn);
+          array.push(currIndex);
+        }
+      }
+    }
+  }
+
+  return array;
+}
 
 function findPossible(index, sudokuArray) {
   let isPossible = new Array(10).fill(true);
@@ -30,6 +99,9 @@ function fillInNumber(sudokuArray) {
       let isPossible = findPossible(i, sudokuArray);
       if (isPossible[checkArray(isPossible)]) {
         sudokuArray[i] = checkArray(isPossible);
+        setTimeout(() => {
+          fillGrid(i, sudokuArray)
+        }, 1000)
         toContinue = true;
       }
     }
@@ -46,6 +118,9 @@ function deduceNumber(sudokuArray) {
         let match = findMatch(isPossible, i, j, sudokuArray);
         if (isPossible[checkArray(match)]) {
           sudokuArray[i] = checkArray(match);
+          setTimeout(() => {
+            fillGrid(i, sudokuArray)
+          }, 1000)
           toContinue = true;
           break;
         }
@@ -89,10 +164,20 @@ function guessNumber(sudokuArray) {
 
 function sudokuSolver(string) {
   const sudokuArray = string.split('');
+  for (let i = 0; i < sudokuArray.length; i += 1){
+    if (sudokuArray[i] !== '-'){
+      setTimeout(() => {
+        fillGrid(i, sudokuArray)
+     }, 1000)
+    }
+  }
+  
   let toContinue;
   do {
     toContinue = logicBasedSolver(sudokuArray);
   } while (toContinue === true);
+
+
 
   // do {
   //   do { toContinue = fillInNumber(sudokuArray) } while (toContinue === true)
@@ -149,5 +234,16 @@ function sudokuSolver(string) {
   return sudokuArray.join(' ');
 }
 
-const string = '3-26-9--55--73----------9-----94----------1-9----57-6---85----6--------3-19-82-4-';
+const string = '3---------5-7-3--8----28-7-7------43-----------39-41-54--3--8--1---4----968---2--';
 console.log(sudokuSolver(string));
+
+
+
+function fillGrid(index, sudokuArray){
+  // let str = `cell-${index}`;
+
+  let cell = document.querySelector(`#cell-${index+1}`);
+  cell.innerText = sudokuArray[index];
+}
+
+

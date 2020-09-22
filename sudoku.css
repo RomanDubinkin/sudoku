@@ -14,7 +14,7 @@ td {
   vertical-align: middle;  
 }
 
-input {
+input, td {
   color: #000000;
   padding: 0;
   border: 0;
