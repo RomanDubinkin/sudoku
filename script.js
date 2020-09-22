@@ -55,14 +55,49 @@ function deduceNumber(sudokuArray) {
   return toContinue;
 }
 
+function logicBasedSolver(sudokuArray) {
+  let toContinue = false;
+  do {
+    do { toContinue = fillInNumber(sudokuArray) } while (toContinue === true)
+    toContinue = deduceNumber(sudokuArray);
+  } while (toContinue === true)
+  return toContinue;
+}
+
+function guessNumber(sudokuArray) {
+  let sudokuCopy = [...sudokuArray];
+  let i = 0;
+  while (sudokuArray[i] !== '-') { i += 1 };
+  let isPossible = findPossible(i, sudokuArray);
+  let numbers = checkArray(isPossible, 1);
+  sudokuArray[i] = numbers[0];
+  logicBasedSolver(sudokuArray);
+  // 1. ugadali pravil'no, puzzle slozhilsja+ => proverit' eto uslovie
+  // 2. ne ugadali 4to eto zna4it?=> dolzhno vozniknut' protivore4ie => popravit' funkciju findPossible
+  // ozidaem resultat' vozvrawenia funkcii checkArray(isPossible) [] --pustoi massive , togda otkatyvemsja nazad!
+  // i vybiraem novoe chislo iz vozmozhnyh
+  // 3. logika sdalas', no puzzle ewe ne slozhilsja i nam nado ugadyvat' snova!!!!
+}
+
+
+
+
+
+
+
+
 
 function sudokuSolver(string) {
   const sudokuArray = string.split('');
   let toContinue;
   do {
-    do { toContinue = fillInNumber(sudokuArray) } while (toContinue === true)
-    toContinue = deduceNumber(sudokuArray);
-  } while (toContinue === true)
+    toContinue = logicBasedSolver(sudokuArray);
+  } while (toContinue === true);
+
+  // do {
+  //   do { toContinue = fillInNumber(sudokuArray) } while (toContinue === true)
+  //   toContinue = deduceNumber(sudokuArray);
+  // } while (toContinue === true)
 
   // do {
   //   toContinue = false;
