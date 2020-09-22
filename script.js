@@ -23,44 +23,93 @@ function findMatch(isPossible, index, pos, sudokuArray) {
   return row;
 }
 
+function fillInNumber(sudokuArray) {
+  let toContinue = false;
+  for (let i = 0; i < 81; i += 1) {
+    if (sudokuArray[i] === '-') {
+      let isPossible = findPossible(i, sudokuArray);
+      if (isPossible[checkArray(isPossible)]) {
+        sudokuArray[i] = checkArray(isPossible);
+        toContinue = true;
+      }
+    }
+  }
+  return toContinue;
+}
+
+function deduceNumber(sudokuArray) {
+  let toContinue = false;
+  for (let i = 0; i < 81; i += 1) {
+    if (sudokuArray[i] === '-') {
+      let isPossible = findPossible(i, sudokuArray);
+      for (let j = 0; j < 3; j += 1) {
+        let match = findMatch(isPossible, i, j, sudokuArray);
+        if (isPossible[checkArray(match)]) {
+          sudokuArray[i] = checkArray(match);
+          toContinue = true;
+          break;
+        }
+      }
+    }
+  }
+  return toContinue;
+}
+
+
 function sudokuSolver(string) {
   const sudokuArray = string.split('');
   let toContinue;
   do {
-    toContinue = false;
-    for (let i = 0; i < 81; i += 1) {
-      if (sudokuArray[i] === '-') {
-        // let isPossible = new Array(10).fill(true);
-        // isPossible[0] = false;
-        // for (let j = 0; j < 3; j += 1) {
-        //   let indices = [...indexFinder(i, j)];
-        //   updateArray(indices, sudokuArray, isPossible);
-        // }
-        let isPossible = findPossible(i, sudokuArray);
-        if (isPossible[checkArray(isPossible)]) {
-          sudokuArray[i] = checkArray(isPossible);
-          toContinue = true;
-        }
-      }
-    }
-  } while (toContinue === true);
+    do { toContinue = fillInNumber(sudokuArray) } while (toContinue === true)
+    toContinue = deduceNumber(sudokuArray);
+  } while (toContinue === true)
 
-  do {
-    toContinue = false;
-    for (let i = 0; i < 81; i += 1) {
-      if (sudokuArray[i] === '-') {
-        let isPossible = findPossible(i, sudokuArray);
-        for (let j = 0; j < 3; j += 1) {
-          let match = findMatch(isPossible, i, j, sudokuArray);
-          if (isPossible[checkArray(match)]) {
-            sudokuArray[i] = checkArray(match);
-            toContinue = true;
-            break;
-          }
-        }
-      }
-    }
-  } while (toContinue === true);
+  // do {
+  //   toContinue = false;
+  //   for (let i = 0; i < 81; i += 1) {
+  //     if (sudokuArray[i] === '-') {
+  //       let isPossible = findPossible(i, sudokuArray);
+  //       if (isPossible[checkArray(isPossible)]) {
+  //         sudokuArray[i] = checkArray(isPossible);
+  //         toContinue = true;
+  //       }
+  //     }
+  //   }
+  // } while (toContinue === true);
+
+  // do {
+  //   toContinue = false;
+  //   for (let i = 0; i < 81; i += 1) {
+  //     if (sudokuArray[i] === '-') {
+  //       let isPossible = findPossible(i, sudokuArray);
+  //       for (let j = 0; j < 3; j += 1) {
+  //         let match = findMatch(isPossible, i, j, sudokuArray);
+  //         if (isPossible[checkArray(match)]) {
+  //           sudokuArray[i] = checkArray(match);
+  //           toContinue = true;
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
+  // } while (toContinue === true);
+
+  // do {
+  //   toContinue = false;
+  //   for (let i = 0; i < 81; i += 1) {
+  //     if (sudokuArray[i] === '-') {
+  //       let isPossible = findPossible(i, sudokuArray);
+  //       for (let j = 0; j < 3; j += 1) {
+  //         let match = findMatch(isPossible, i, j, sudokuArray);
+  //         if (isPossible[checkArray(match)]) {
+  //           sudokuArray[i] = checkArray(match);
+  //           toContinue = true;
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
+  // } while (toContinue === true);
 
   return sudokuArray.join(' ');
 }
