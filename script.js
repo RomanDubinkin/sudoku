@@ -28,6 +28,9 @@ function fillInNumber(sudokuArray) {
   for (let i = 0; i < 81; i += 1) {
     if (sudokuArray[i] === '-') {
       let isPossible = findPossible(i, sudokuArray);
+      if (isPossible.indexOf(true) === -1) {
+        return -1;
+      }
       if (isPossible[checkArray(isPossible)]) {
         sudokuArray[i] = checkArray(isPossible);
         toContinue = true;
@@ -59,33 +62,36 @@ function logicBasedSolver(sudokuArray) {
   let toContinue = false;
   do {
     do { toContinue = fillInNumber(sudokuArray) } while (toContinue === true)
+    if (toContinue === -1) break;
     toContinue = deduceNumber(sudokuArray);
   } while (toContinue === true)
   return toContinue;
 }
 
 function guessNumber(sudokuArray) {
-  let sudokuCopy = [...sudokuArray];
-  let i = 0;
-  while (sudokuArray[i] !== '-') { i += 1 };
-  let isPossible = findPossible(i, sudokuArray);
+  let toContinue = false;
+  let index = sudokuArray.indexOf('-');
+  if (index === -1) {
+    return toContinue;
+  }
+  let isPossible = findPossible(index, sudokuArray);
   let numbers = checkArray(isPossible, 1);
-  sudokuArray[i] = numbers[0];
-  logicBasedSolver(sudokuArray);
-  // 1. ugadali pravil'no, puzzle slozhilsja+ => proverit' eto uslovie
-  // 2. ne ugadali 4to eto zna4it?=> dolzhno vozniknut' protivore4ie => popravit' funkciju findPossible
-  // ozidaem resultat' vozvrawenia funkcii checkArray(isPossible) [] --pustoi massive , togda otkatyvemsja nazad!
-  // i vybiraem novoe chislo iz vozmozhnyh
-  // 3. logika sdalas', no puzzle ewe ne slozhilsja i nam nado ugadyvat' snova!!!!
+  let i = 0;
+  do {
+    let sudokuArrayCopy = [...sudokuArray];
+    sudokuArray[index] = numbers[i];
+    if (logicBasedSolver(sudokuArray) !== -1) {
+      toContinue = guessNumber(sudokuArray);
+    } else {
+      toContinue = true;
+    }
+    if (toContinue === true) {
+      sudokuArrayCopy.forEach((el, i) => sudokuArray[i] = el);
+    }
+    i += 1;
+  } while (toContinue === true && i < numbers.length)
+  return toContinue;
 }
-
-
-
-
-
-
-
-
 
 function sudokuSolver(string) {
   const sudokuArray = string.split('');
@@ -93,61 +99,10 @@ function sudokuSolver(string) {
   do {
     toContinue = logicBasedSolver(sudokuArray);
   } while (toContinue === true);
-
-  // do {
-  //   do { toContinue = fillInNumber(sudokuArray) } while (toContinue === true)
-  //   toContinue = deduceNumber(sudokuArray);
-  // } while (toContinue === true)
-
-  // do {
-  //   toContinue = false;
-  //   for (let i = 0; i < 81; i += 1) {
-  //     if (sudokuArray[i] === '-') {
-  //       let isPossible = findPossible(i, sudokuArray);
-  //       if (isPossible[checkArray(isPossible)]) {
-  //         sudokuArray[i] = checkArray(isPossible);
-  //         toContinue = true;
-  //       }
-  //     }
-  //   }
-  // } while (toContinue === true);
-
-  // do {
-  //   toContinue = false;
-  //   for (let i = 0; i < 81; i += 1) {
-  //     if (sudokuArray[i] === '-') {
-  //       let isPossible = findPossible(i, sudokuArray);
-  //       for (let j = 0; j < 3; j += 1) {
-  //         let match = findMatch(isPossible, i, j, sudokuArray);
-  //         if (isPossible[checkArray(match)]) {
-  //           sudokuArray[i] = checkArray(match);
-  //           toContinue = true;
-  //           break;
-  //         }
-  //       }
-  //     }
-  //   }
-  // } while (toContinue === true);
-
-  // do {
-  //   toContinue = false;
-  //   for (let i = 0; i < 81; i += 1) {
-  //     if (sudokuArray[i] === '-') {
-  //       let isPossible = findPossible(i, sudokuArray);
-  //       for (let j = 0; j < 3; j += 1) {
-  //         let match = findMatch(isPossible, i, j, sudokuArray);
-  //         if (isPossible[checkArray(match)]) {
-  //           sudokuArray[i] = checkArray(match);
-  //           toContinue = true;
-  //           break;
-  //         }
-  //       }
-  //     }
-  //   }
-  // } while (toContinue === true);
+  guessNumber(sudokuArray);
 
   return sudokuArray.join(' ');
 }
 
-const string = '3-26-9--55--73----------9-----94----------1-9----57-6---85----6--------3-19-82-4-';
+const string = '--7--8------2---6-65--79----7----3-5-83---67-2-1----8----71--38-2---5------4--2--';
 console.log(sudokuSolver(string));
