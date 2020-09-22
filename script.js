@@ -1,6 +1,7 @@
-const { indexFinder } = require('./index-finder.js');
-const { checkArray } = require('./checkArray.js');
-const { updateArray } = require('./updateArray.js');
+
+const indexFinder = require('./index-finder.js');
+const checkArray  = require('./checkArray.js');
+const updateArray = require('./updateArray.js');
 
 function findPossible(index, sudokuArray) {
   let isPossible = new Array(10).fill(true);
@@ -33,6 +34,9 @@ function fillInNumber(sudokuArray) {
       }
       if (isPossible[checkArray(isPossible)]) {
         sudokuArray[i] = checkArray(isPossible);
+        setTimeout(() => {
+          fillGrid(i, sudokuArray)
+        }, 1000)
         toContinue = true;
       }
     }
@@ -49,6 +53,9 @@ function deduceNumber(sudokuArray) {
         let match = findMatch(isPossible, i, j, sudokuArray);
         if (isPossible[checkArray(match)]) {
           sudokuArray[i] = checkArray(match);
+          setTimeout(() => {
+            fillGrid(i, sudokuArray)
+          }, 1000)
           toContinue = true;
           break;
         }
@@ -95,14 +102,30 @@ function guessNumber(sudokuArray) {
 
 function sudokuSolver(string) {
   const sudokuArray = string.split('');
+  for (let i = 0; i < sudokuArray.length; i += 1){
+    if (sudokuArray[i] !== '-'){
+      setTimeout(() => {
+        fillGrid(i, sudokuArray)
+     }, 1000)
+    }
+  }
+  
   let toContinue;
   do {
     toContinue = logicBasedSolver(sudokuArray);
   } while (toContinue === true);
   guessNumber(sudokuArray);
-
   return sudokuArray.join(' ');
 }
 
 const string = '--7--8------2---6-65--79----7----3-5-83---67-2-1----8----71--38-2---5------4--2--';
 console.log(sudokuSolver(string));
+
+
+
+function fillGrid(index, sudokuArray){
+  let cell = document.querySelector(`#cell-${index+1}`);
+  cell.innerText = sudokuArray[index];
+}
+
+
