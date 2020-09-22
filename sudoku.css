@@ -1,0 +1,37 @@
+html, body {
+  background-color: #808080;
+  text-align: center;
+}
+
+table {
+  border: #000000;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;  
+}
+
+input {
+  color: #000000;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  background-color: #ffffff;
+}
+
+#cell-3, #cell-6, #cell-12, #cell-15, #cell-21, #cell-24, #cell-30, #cell-33, #cell-39, #cell-42  {border-right: 4px solid #000000;}
+#cell-4, #cell-7, #cell-13, #cell-16, #cell-22, #cell-25, #cell-31, #cell-34, #cell-40, #cell-43  {border-left: 4px solid #000000;}
+#cell-19, #cell-20, #cell-21, #cell-22, #cell-23, #cell-24, #cell-25, #cell-26, #cell-27  {border-bottom: 4px solid #000000;}
+#cell-28, #cell-29, #cell-30, #cell-31, #cell-32, #cell-33, #cell-34, #cell-35, #cell-36  {border-top: 4px solid #000000;}
+
+#cell-46, #cell-47, #cell-48, #cell-49, #cell-50, #cell-51, #cell-52, #cell-53, #cell-54  {border-bottom: 4px solid #000000;}
+#cell-55, #cell-56, #cell-57, #cell-58, #cell-59, #cell-60, #cell-61, #cell-62, #cell-63  {border-top: 4px solid #000000;}
+#cell-48, #cell-51, #cell-57, #cell-60, #cell-66, #cell-69, #cell-75, #cell-78 {border-right: 4px solid #000000;}
+#cell-49, #cell-52, #cell-58, #cell-61, #cell-67, #cell-70, #cell-76, #cell-79 {border-left: 4px solid #000000;}
+
