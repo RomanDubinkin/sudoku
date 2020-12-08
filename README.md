@@ -3,5 +3,4 @@
 
 ![solving sudoku animation](readme-assets/sequence.gif)
 
-Examples of heuristics in solving sudoku
-
+Code demonstates some examples of heuristics in solving sudoku.
